@@ -1,3 +1,4 @@
+     
  document.addEventListener("DOMContentLoaded", () => {
     const menuToggle = document.getElementById("menu-toggle");
     const sideMenu = document.getElementById("side-menu");
@@ -30,21 +31,35 @@
         });
     }
 
-    // Puente de sincronización con tu servidor local (192.168.11.12)
+    // Puente de sincronización con tu servidor local (192.168.11.12) y actualización del indicador en el panel
     async function sincronizarConServidor() {
         const urlServidor = "http://192.168.11.12"; 
+        const indicadorPanel = document.getElementById("estado-servidor-panel");
         const container = document.getElementById("dynamic-content");
         const fechaActual = new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
         
         try {
-            // Intenta verificar la pasarela del servidor local
             await fetch(urlServidor, { method: 'GET', mode: 'no-cors' });
             console.log("Servidor Reenvoud (192.168.11.12) Conectado y Activo.");
+            
+            if (indicadorPanel) {
+                indicadorPanel.innerHTML = "🟢 Servidor Local: Enlazado y Activo";
+                indicadorPanel.style.borderColor = "#00ff66";
+                indicadorPanel.style.color = "#ccffcc";
+            }
+            
             if (container) {
                 container.textContent = `Reenvoud OS Panel Pro Activo | Servidor Local Enlazado (${urlServidor}) - Fecha: ${fechaActual}`;
             }
         } catch (error) {
             console.log("Servidor local fuera de línea. Operando en modo estándar.");
+            
+            if (indicadorPanel) {
+                indicadorPanel.innerHTML = "🔴 Servidor Local: Desconectado (Modo Estándar)";
+                indicadorPanel.style.borderColor = "#7a0000";
+                indicadorPanel.style.color = "#ffcccc";
+            }
+            
             if (container) {
                 container.textContent = `Reenvoud OS Panel Pro Activo - Fecha: ${fechaActual}`;
             }
@@ -356,3 +371,4 @@
         });
     }
 });
+       
