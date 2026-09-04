@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+ document.addEventListener("DOMContentLoaded", () => {
     const menuToggle = document.getElementById("menu-toggle");
     const sideMenu = document.getElementById("side-menu");
     const closeMenu = document.getElementById("close-menu");
@@ -145,9 +145,26 @@ document.addEventListener("DOMContentLoaded", () => {
             if (dept.blocks && dept.blocks.length > 0) {
                 dept.blocks.forEach((block, blockIndex) => {
                     let badge = block.type === 'article' ? '📝 [Artículo / Blog]' : (block.type === 'multimedia' ? '🎬 [Multimedia]' : '📌 [Proyecto]');
+                    
+                    // Adaptación para renderizar multimedia (video o imagen) dinámicamente si es creado como multimedia
+                    let mediaElementHTML = '';
+                    if (block.type === 'multimedia') {
+                        mediaElementHTML = `
+                            <div style="margin: 12px 0;">
+                                <video controls style="width: 100%; max-height: 300px; border-radius: 8px; border: 1px solid #7a0000; background: #000;">
+                                    <source src="tu-video.mp4" type="video/mp4">
+                                    Tu navegador no soporta video.
+                                </video>
+                                <!-- O si prefieres imagen, cambia la etiqueta de arriba por: -->
+                                <!-- <img src="tu-imagen.jpg" alt="${block.title}" style="width: 100%; height: auto; border-radius: 8px; border: 1px solid #7a0000;"> -->
+                            </div>
+                        `;
+                    }
+
                     subBlocksHTML += `
                         <div class="sub-block-item">
                             <h4>${badge} ${block.title}</h4>
+                            ${mediaElementHTML}
                             <p>Contenido exclusivo de la sección ${dept.name}.</p>
                             <button class="delete-sub-btn" data-dept="${deptIndex}" data-block="${blockIndex}">🗑️ Borrar Subsección</button>
                         </div>
