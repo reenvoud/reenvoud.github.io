@@ -1,16 +1,17 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reenvoud Corporation | Jonathan Carela Burgos</title>
-    <link rel="stylesheet" href="style.css?v=5">
+    <link rel="stylesheet" href="style.css?v=6">
 </head>
 <body>
 
     <header class="top-bar">
         <div class="left-menu-bar">
-            <button class="menu-toggle-btn" id="menu-toggle">⚡ Panel Gestor</button>
+            <button class="menu-toggle-btn" id="menu-toggle">⚡ Panel Gestor Pro</button>
         </div>
         <div class="right-action-bar">
             <button class="action-btn" title="Favoritos">📌</button>
@@ -21,33 +22,38 @@
 
     <nav class="side-menu" id="side-menu">
         <div class="menu-header">
-            <h2>Reenvoud OS</h2>
+            <h2>Reenvoud OS - Control</h2>
             <button class="close-menu-btn" id="close-menu">&times;</button>
         </div>
         
         <div class="admin-panel-builder">
-            <h3>🛠️ Creador Dinámico</h3>
+            <h3>🛠️ Creador de Áreas / Departamentos</h3>
             <div class="form-group">
-                <label>Nuevo Departamento:</label>
-                <input type="text" id="new-dept-name" placeholder="Ej. Ciberseguridad">
-                <button id="add-dept-btn" class="builder-btn">Crear Sección</button>
+                <label>Nombre del Departamento:</label>
+                <input type="text" id="new-dept-name" placeholder="Ej. Inteligencia Artificial Pro">
+                <button id="add-dept-btn" class="builder-btn">Crear Área</button>
+            </div>
+            
+            <div class="form-group">
+                <label>Asignar a Departamento:</label>
+                <select id="target-dept-select">
+                    </select>
             </div>
             <div class="form-group">
-                <label>Añadir Contenido:</label>
+                <label>Tipo de Contenido Profesional:</label>
                 <select id="block-type">
-                    <option value="video">Bloque Multimedia (Video)</option>
-                    <option value="text">Bloque de Texto / Artículo</option>
-                    <option value="card">Tarjeta de Proyecto</option>
+                    <option value="article">Página / Artículo Profesional (Blog)</option>
+                    <option value="multimedia">Bloque Multimedia Avanzado (Video/3D)</option>
+                    <option value="project">Tarjeta de Proyecto o Software</option>
                 </select>
-                <input type="text" id="block-title" placeholder="Título del bloque">
-                <button id="add-block-btn" class="builder-btn">Añadir a la Página</button>
+                <input type="text" id="block-title" placeholder="Título de la subsección o página">
+                <button id="add-block-btn" class="builder-btn">Añadir al Área</button>
             </div>
         </div>
 
         <hr class="menu-divider">
 
-        <h3>📂 Departamentos Activos</h3>
-        <!-- La lista ahora se llena dinámicamente con sus botones de borrar -->
+        <h3>📂 Áreas Activas y Estructura</h3>
         <ul class="menu-links" id="departments-list"></ul>
     </nav>
 
@@ -55,7 +61,7 @@
         <section class="hero-block" id="inicio">
             <div class="media-container">
                 <div class="media-placeholder">
-                    <p>🎬 Espacio Multimedia Activo</p>
+                    <p>🎬 Espacio Multimedia Principal</p>
                 </div>
             </div>
             <h1>Reenvoud Corporation</h1>
@@ -63,12 +69,12 @@
         </section>
     </div>
 
-    <div id="user-blocks-container"></div>
+    <div id="departments-content-container"></div>
 
     <main class="main-content">
         <div id="dynamic-content"></div>
     </main>
 
-    <script src="script.js?v=5"></script>
+    <script src="script.js?v=6"></script>
 </body>
 </html>
