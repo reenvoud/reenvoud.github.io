@@ -30,19 +30,72 @@
         });
     }
 
-    // Control de audio para el video principal por defecto
-    const heroVideo = document.getElementById("hero-default-video");
-    const soundToggleBtn = document.getElementById("hero-sound-toggle");
+    // Gestión universal de la portada principal (Foto o Video sin cambiar código)
+    const heroFileInput = document.getElementById("hero-file-input");
+    const heroMediaDisplay = document.getElementById("hero-media-display");
+    const heroSoundToggle = document.getElementById("hero-sound-toggle");
 
-    if (heroVideo && soundToggleBtn) {
-        soundToggleBtn.addEventListener("click", () => {
-            heroVideo.muted = !heroVideo.muted;
-            if (heroVideo.muted) {
-                soundToggleBtn.textContent = "🔇 Activar Sonido";
-                soundToggleBtn.style.background = "rgba(0, 0, 0, 0.7)";
-            } else {
-                soundToggleBtn.textContent = "🔊 Silenciar";
-                soundToggleBtn.style.background = "rgba(139, 0, 0, 0.85)";
+    const savedHeroMedia = localStorage.getItem("reenvoud_hero_media");
+    const savedHeroType = localStorage.getItem("reenvoud_hero_type");
+
+    if (savedHeroMedia && savedHeroType) {
+        if (savedHeroType.startsWith("video")) {
+            heroMediaDisplay.innerHTML = `
+                <video id="hero-default-video" autoplay loop muted playsinline style="width: 100%; max-height: 400px; border-radius: 12px; border: 2px solid #8b0000; background-color: #000; object-fit: cover;">
+                    <source src="${savedHeroMedia}" type="${savedHeroType}">
+                    Tu navegador no soporta la reproducción de video.
+                </video>
+            `;
+            if (heroSoundToggle) heroSoundToggle.style.display = "block";
+        } else if (savedHeroType.startsWith("image")) {
+            heroMediaDisplay.innerHTML = `
+                <img src="${savedHeroMedia}" alt="Portada Principal" style="width: 100%; max-height: 400px; object-fit: contain; border-radius: 12px; border: 2px solid #8b0000; background-color: #000;">
+            `;
+            if (heroSoundToggle) heroSoundToggle.style.display = "none";
+        }
+    }
+
+    if (heroFileInput) {
+        heroFileInput.addEventListener("change", (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const fileUrl = URL.createObjectURL(file);
+                const fileType = file.type;
+
+                localStorage.setItem("reenvoud_hero_media", fileUrl);
+                localStorage.setItem("reenvoud_hero_type", fileType);
+
+                if (fileType.startsWith("video")) {
+                    heroMediaDisplay.innerHTML = `
+                        <video id="hero-default-video" autoplay loop muted playsinline style="width: 100%; max-height: 400px; border-radius: 12px; border: 2px solid #8b0000; background-color: #000; object-fit: cover;">
+                            <source src="${fileUrl}" type="${fileType}">
+                            Tu navegador no soporta la reproducción de video.
+                        </video>
+                    `;
+                    if (heroSoundToggle) heroSoundToggle.style.display = "block";
+                } else if (fileType.startsWith("image")) {
+                    heroMediaDisplay.innerHTML = `
+                        <img src="${fileUrl}" alt="Portada Principal" style="width: 100%; max-height: 400px; object-fit: contain; border-radius: 12px; border: 2px solid #8b0000; background-color: #000;">
+                    `;
+                    if (heroSoundToggle) heroSoundToggle.style.display = "none";
+                }
+            }
+        });
+    }
+
+    // Control de audio para el video principal
+    if (heroSoundToggle) {
+        heroSoundToggle.addEventListener("click", () => {
+            const currentVideo = document.getElementById("hero-default-video");
+            if (currentVideo) {
+                currentVideo.muted = !currentVideo.muted;
+                if (currentVideo.muted) {
+                    heroSoundToggle.textContent = "🔇 Activar Sonido";
+                    heroSoundToggle.style.background = "rgba(0, 0, 0, 0.7)";
+                } else {
+                    heroSoundToggle.textContent = "🔊 Silenciar";
+                    heroSoundToggle.style.background = "rgba(139, 0, 0, 0.85)";
+                }
             }
         });
     }
