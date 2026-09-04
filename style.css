@@ -19,6 +19,7 @@ body {
     top: 0;
     z-index: 100;
     box-shadow: 0 4px 20px rgba(139, 0, 0, 0.3);
+    box-sizing: border-box;
 }
 
 .left-menu-bar {
@@ -53,7 +54,6 @@ body {
     font-size: 0.9rem;
 }
 
-/* Panel Lateral Moderno */
 .side-menu {
     position: fixed;
     top: 0;
@@ -166,6 +166,9 @@ body {
 
 .menu-links li {
     margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .menu-links a {
@@ -180,12 +183,27 @@ body {
     color: #ff4d4d;
 }
 
-/* Estilos de Bloques */
+.delete-btn {
+    background-color: #4a0000;
+    color: #ff9999;
+    border: 1px solid #8b0000;
+    padding: 3px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.75rem;
+}
+
+.delete-btn:hover {
+    background-color: #ff0000;
+    color: #fff;
+}
+
 .hero-block {
     text-align: center;
     padding: 50px 20px;
     background: linear-gradient(180deg, #180505 0%, #070707 100%);
     border-bottom: 1px solid #200808;
+    position: relative;
 }
 
 .media-container {
