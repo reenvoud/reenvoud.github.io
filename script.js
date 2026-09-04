@@ -1,5 +1,4 @@
-     
- document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {
     const menuToggle = document.getElementById("menu-toggle");
     const sideMenu = document.getElementById("side-menu");
     const closeMenu = document.getElementById("close-menu");
@@ -31,16 +30,16 @@
         });
     }
 
-    // Puente de sincronización con tu servidor local (192.168.11.12) y actualización del indicador en el panel
+    // Puente de sincronización con tu servidor local a través del túnel seguro de Cloudflare
     async function sincronizarConServidor() {
-        const urlServidor = "http://192.168.11.12"; 
+        const urlServidor = "https://shortcuts-occupations-rug-achieve.trycloudflare.com"; 
         const indicadorPanel = document.getElementById("estado-servidor-panel");
         const container = document.getElementById("dynamic-content");
         const fechaActual = new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
         
         try {
             await fetch(urlServidor, { method: 'GET', mode: 'no-cors' });
-            console.log("Servidor Reenvoud (192.168.11.12) Conectado y Activo.");
+            console.log("Servidor Reenvoud Conectado y Activo vía Cloudflare.");
             
             if (indicadorPanel) {
                 indicadorPanel.innerHTML = "🟢 Servidor Local: Enlazado y Activo";
@@ -49,7 +48,7 @@
             }
             
             if (container) {
-                container.textContent = `Reenvoud OS Panel Pro Activo | Servidor Local Enlazado (${urlServidor}) - Fecha: ${fechaActual}`;
+                container.textContent = `Reenvoud OS Panel Pro Activo | Servidor Local Enlazado (Cloudflare) - Fecha: ${fechaActual}`;
             }
         } catch (error) {
             console.log("Servidor local fuera de línea. Operando en modo estándar.");
@@ -370,5 +369,6 @@
             }
         });
     }
+});
 });
        
