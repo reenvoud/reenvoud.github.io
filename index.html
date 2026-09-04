@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reenvoud Corporation | Jonathan Carela Burgos</title>
-    <!-- Módulo de Estilos Externo -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -12,7 +11,7 @@
     <!-- Módulo: Barra Superior -->
     <header class="top-bar">
         <div class="left-menu-bar">
-            <button class="menu-toggle-btn" id="menu-toggle">☰ Menú</button>
+            <button class="menu-toggle-btn" id="menu-toggle">⚙️ Panel / Menú</button>
         </div>
         <div class="right-action-bar">
             <button class="action-btn" title="Seguir">📌</button>
@@ -21,13 +20,35 @@
         </div>
     </header>
 
-    <!-- Módulo: Menú Lateral (Departamentos) -->
+    <!-- Módulo: Panel de Control / Menú Lateral (Estilo WordPress) -->
     <nav class="side-menu" id="side-menu">
         <div class="menu-header">
-            <h2>Departamentos</h2>
+            <h2>Gestor Reenvoud</h2>
             <button class="close-menu-btn" id="close-menu">&times;</button>
         </div>
-        <ul class="menu-links">
+        
+        <div class="admin-panel-builder">
+            <h3>Constructor Rápido</h3>
+            <div class="form-group">
+                <label>Nuevo Departamento:</label>
+                <input type="text" id="new-dept-name" placeholder="Ej. Ciberseguridad">
+                <button id="add-dept-btn" class="builder-btn">Añadir Departamento</button>
+            </div>
+            <div class="form-group">
+                <label>Añadir Bloque Multimedia:</label>
+                <select id="block-type">
+                    <option value="video">Bloque de Video</option>
+                    <option value="photo">Bloque de Fotos</option>
+                    <option value="text">Bloque de Texto</option>
+                </select>
+                <button id="add-block-btn" class="builder-btn">Crear Bloque</button>
+            </div>
+        </div>
+
+        <hr class="menu-divider">
+
+        <h3>Departamentos</h3>
+        <ul class="menu-links" id="departments-list">
             <li><a href="#inicio">Inicio / Principal</a></li>
             <li><a href="#ia">Inteligencia Artificial</a></li>
             <li><a href="#desarrollo">Desarrollo de Software</a></li>
@@ -36,23 +57,23 @@
         </ul>
     </nav>
 
-    <!-- Módulo: Bloque Multimedia / Contenido -->
-    <section class="hero-block" id="inicio">
-        <div class="media-container">
-            <div class="media-placeholder">
-                <p>Espacio multimedia (Video / Fotos)</p>
+    <!-- Módulo Principal Dinámico -->
+    <div id="content-builder-area">
+        <section class="hero-block" id="inicio">
+            <div class="media-container">
+                <div class="media-placeholder">
+                    <p>Espacio multimedia (Video / Fotos)</p>
+                </div>
             </div>
-        </div>
-        <h1>Reenvoud Corporation</h1>
-        <p class="founder-subtitle">Fundador: Jonathan Carela Burgos</p>
-    </section>
+            <h1>Reenvoud Corporation</h1>
+            <p class="founder-subtitle">Fundador: Jonathan Carela Burgos</p>
+        </section>
+    </div>
 
-    <!-- Módulo: Contenedor Dinámico -->
     <main class="main-content">
         <div id="dynamic-content"></div>
     </main>
 
-    <!-- Módulo de Lógica Externo -->
     <script src="script.js"></script>
 </body>
 </html>
