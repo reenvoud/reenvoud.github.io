@@ -204,7 +204,23 @@ document.addEventListener("DOMContentLoaded", () => {
     function renderSystem() {
         if (!departmentsList || !targetDeptSelect || !departmentsContentContainer) return;
 
-        departmentsList.innerHTML = "";
+        // Limpiar contenedor dinámico pero mantener el enlace de inicio en el menú
+        departmentsList.innerHTML = `
+            <li>
+                <a href="#inicio" id="nav-inicio-link">Inicio / Principal</a>
+            </li>
+        `;
+        
+        // Reasignar el evento al enlace de inicio recién creado
+        const inicioLink = document.getElementById("nav-inicio-link");
+        if (inicioLink) {
+            inicioLink.addEventListener("click", (e) => {
+                e.preventDefault();
+                switchView("inicio", true);
+                if (sideMenu) sideMenu.classList.remove("open");
+            });
+        }
+
         targetDeptSelect.innerHTML = "";
         departmentsContentContainer.innerHTML = "";
 
@@ -313,15 +329,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    const inicioLink = document.getElementById("nav-inicio-link");
-    if (inicioLink) {
-        inicioLink.addEventListener("click", (e) => {
-            e.preventDefault();
-            switchView("inicio", true);
-            if (sideMenu) sideMenu.classList.remove("open");
-        });
-    }
-
     renderSystem();
 
     if (window.location.hash) {
@@ -380,4 +387,3 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
-       
