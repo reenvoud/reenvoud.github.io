@@ -36,7 +36,6 @@ body {
     cursor: pointer;
     font-weight: bold;
     font-size: 0.95rem;
-    box-shadow: 0 2px 8px rgba(255, 0, 0, 0.3);
 }
 
 .right-action-bar {
@@ -51,7 +50,6 @@ body {
     padding: 8px 12px;
     border-radius: 8px;
     cursor: pointer;
-    font-size: 0.9rem;
 }
 
 .side-menu {
@@ -145,11 +143,6 @@ body {
     cursor: pointer;
     font-weight: bold;
     font-size: 0.85rem;
-    transition: background 0.2s;
-}
-
-.builder-btn:hover {
-    background-color: #cc0000;
 }
 
 .menu-divider {
@@ -195,11 +188,9 @@ body {
     padding: 2px 6px;
 }
 
-.delete-dept-btn:hover, .delete-sub-btn:hover {
-    color: #ff0000;
-}
-
-.department-section {
+/* Control de vistas: Ocultar secciones por defecto, mostrar solo la activa */
+.view-section {
+    display: none;
     max-width: 900px;
     margin: 30px auto;
     background: #111;
@@ -209,45 +200,13 @@ body {
     box-shadow: 0 4px 15px rgba(0,0,0,0.5);
 }
 
-.department-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #7a0000;
-    padding-bottom: 10px;
-    margin-bottom: 15px;
-}
-
-.department-header h2 {
-    color: #ff4d4d;
-    margin: 0;
-    font-size: 1.5rem;
-}
-
-.sub-blocks-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.sub-block-item {
-    background: #160808;
-    border: 1px solid #7a0000;
-    border-radius: 8px;
-    padding: 15px;
-}
-
-.sub-block-item h4 {
-    color: #ff9999;
-    margin-top: 0;
-    margin-bottom: 8px;
+.view-section.active-view {
+    display: block;
 }
 
 .hero-block {
     text-align: center;
     padding: 40px 20px;
-    background: linear-gradient(180deg, #180505 0%, #070707 100%);
-    border-bottom: 1px solid #200808;
 }
 
 .media-container {
@@ -276,6 +235,38 @@ h1 {
 .founder-subtitle {
     color: #aaaaaa;
     font-size: 1.1rem;
+}
+
+.sub-blocks-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.sub-block-item {
+    background: #160808;
+    border: 1px solid #7a0000;
+    border-radius: 8px;
+    padding: 15px;
+}
+
+.sub-block-item h4 {
+    color: #ff9999;
+    margin-top: 0;
+    margin-bottom: 8px;
+}
+
+.department-header {
+    border-bottom: 1px solid #7a0000;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.department-header h2 {
+    color: #ff4d4d;
+    margin: 0;
+    font-size: 1.5rem;
 }
 
 .main-content {
