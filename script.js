@@ -1,5 +1,5 @@
 
-document.addEventListener("DOMContentLoaded", () => {
+ document.addEventListener("DOMContentLoaded", () => {
     const menuToggle = document.getElementById("menu-toggle");
     const sideMenu = document.getElementById("side-menu");
     const closeMenu = document.getElementById("close-menu");
@@ -30,7 +30,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const blockTitleInput = document.getElementById("block-title");
     const departmentsContentContainer = document.getElementById("departments-content-container");
 
-    // Estructura de departamentos con sus sub-bloques (páginas/blogs profesionales)
     let defaultStructure = [
         {
             name: "Inteligencia Artificial",
@@ -58,6 +57,10 @@ document.addEventListener("DOMContentLoaded", () => {
         targetDeptSelect.innerHTML = "";
         departmentsContentContainer.innerHTML = "";
 
+        if (reenvoudData.length === 0) {
+            targetDeptSelect.innerHTML = '<option value="">No hay áreas creadas</option>';
+        }
+
         reenvoudData.forEach((dept, deptIndex) => {
             // 1. Llenar menú lateral de áreas
             const li = document.createElement("li");
@@ -70,7 +73,8 @@ document.addEventListener("DOMContentLoaded", () => {
             delDeptBtn.innerHTML = "🗑️";
             delDeptBtn.className = "delete-dept-btn";
             delDeptBtn.title = "Borrar área completa";
-            delDeptBtn.addEventListener("click", () => {
+            delDeptBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
                 reenvoudData.splice(deptIndex, 1);
                 saveData();
                 renderSystem();
@@ -80,7 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
             li.appendChild(delDeptBtn);
             departmentsList.appendChild(li);
 
-            // 2. Llenar selector del panel administrador
+            // 2. Llenar selector del panel administrador de forma limpia
             const option = document.createElement("option");
             option.value = deptIndex;
             option.textContent = dept.name;
@@ -92,23 +96,27 @@ document.addEventListener("DOMContentLoaded", () => {
             deptSection.id = deptId;
 
             let subBlocksHTML = "";
-            dept.blocks.forEach((block, blockIndex) => {
-                let badge = block.type === 'article' ? '📝 [Artículo / Blog]' : (block.type === 'multimedia' ? '🎬 [Multimedia]' : '📌 [Proyecto]');
-                subBlocksHTML += `
-                    <div class="sub-block-item">
-                        <h4>${badge} ${block.title}</h4>
-                        <p>Contenido profesional estructurado para la sección ${dept.name}. Listo para desarrollo avanzado.</p>
-                        <button class="delete-sub-btn" data-dept="${deptIndex}" data-block="${blockIndex}">🗑️ Borrar Subsección</button>
-                    </div>
-                `;
-            });
+            if (dept.blocks && dept.blocks.length > 0) {
+                dept.blocks.forEach((block, blockIndex) => {
+                    let badge = block.type === 'article' ? '📝 [Artículo / Blog]' : (block.type === 'multimedia' ? '🎬 [Multimedia]' : '📌 [Proyecto]');
+                    subBlocksHTML += `
+                        <div class="sub-block-item">
+                            <h4>${badge} ${block.title}</h4>
+                            <p>Contenido profesional estructurado para la sección ${dept.name}.</p>
+                            <button class="delete-sub-btn" data-dept="${deptIndex}" data-block="${blockIndex}">🗑️ Borrar Subsección</button>
+                        </div>
+                    `;
+                });
+            } else {
+                subBlocksHTML = '<p style="color:#777;">Sin subsecciones creadas todavía en esta área.</p>';
+            }
 
             deptSection.innerHTML = `
                 <div class="department-header">
                     <h2>📁 ${dept.name}</h2>
                 </div>
                 <div class="sub-blocks-grid">
-                    ${subBlocksHTML || '<p style="color:#777;">Sin subsecciones creadas todavía en esta área.</p>'}
+                    ${subBlocksHTML}
                 </div>
             `;
             departmentsContentContainer.appendChild(deptSection);
@@ -137,7 +145,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 saveData();
                 renderSystem();
                 newDeptInput.value = "";
-                alert(`Área "${name}" creada con éxito.`);
+            } else {
+                alert("Escribe un nombre para el área.");
             }
         });
     }
@@ -150,13 +159,15 @@ document.addEventListener("DOMContentLoaded", () => {
             const title = blockTitleInput.value.trim() || "Nueva Página Profesional";
 
             if (selectedDeptIndex !== "" && reenvoudData[selectedDeptIndex]) {
+                if (!reenvoudData[selectedDeptIndex].blocks) {
+                    reenvoudData[selectedDeptIndex].blocks = [];
+                }
                 reenvoudData[selectedDeptIndex].blocks.push({ type, title });
                 saveData();
                 renderSystem();
                 blockTitleInput.value = "";
-                alert("Subsección añadida correctamente al área.");
             } else {
-                alert("Selecciona un departamento válido primero.");
+                alert("Selecciona un departamento válido en el desplegable.");
             }
         });
     }
