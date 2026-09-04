@@ -1,5 +1,4 @@
-
- document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {
     const menuToggle = document.getElementById("menu-toggle");
     const sideMenu = document.getElementById("side-menu");
     const closeMenu = document.getElementById("close-menu");
@@ -52,11 +51,12 @@
     }
 
     function switchView(targetId) {
-        // Ocultar todas las vistas
+        // Ocultar TODO (tanto el inicio como todos los departamentos)
         document.querySelectorAll(".view-section").forEach(sec => {
             sec.classList.remove("active-view");
         });
-        // Mostrar la vista seleccionada
+        
+        // Mostrar únicamente la vista seleccionada
         const selected = document.getElementById(targetId);
         if (selected) {
             selected.classList.add("active-view");
@@ -66,8 +66,6 @@
     function renderSystem() {
         departmentsList.innerHTML = "";
         targetDeptSelect.innerHTML = "";
-        
-        // Mantener el contenedor de inicio y limpiar solo los departamentos dinámicos
         departmentsContentContainer.innerHTML = "";
 
         if (reenvoudData.length === 0) {
@@ -77,7 +75,7 @@
         reenvoudData.forEach((dept, deptIndex) => {
             const deptId = `dept-${deptIndex}`;
 
-            // 1. Enlace en el menú lateral
+            // 1. Elemento en el menú lateral
             const li = document.createElement("li");
             const a = document.createElement("a");
             a.href = `#${deptId}`;
@@ -105,15 +103,15 @@
             li.appendChild(delDeptBtn);
             departmentsList.appendChild(li);
 
-            // 2. Selector en el panel administrador
+            // 2. Selector del panel administrador
             const option = document.createElement("option");
             option.value = deptIndex;
             option.textContent = dept.name;
             targetDeptSelect.appendChild(option);
 
-            // 3. Contenedor independiente para este departamento
+            // 3. Contenedor de vista independiente para este departamento
             const deptSection = document.createElement("section");
-            deptSection.className = "view-section";
+            deptSection.className = "view-section"; // Sin active-view por defecto para que esté oculto
             deptSection.id = deptId;
 
             let subBlocksHTML = "";
@@ -129,7 +127,7 @@
                     `;
                 });
             } else {
-                subBlocksHTML = '<p style="color:#777;">Este departamento está vacío. Añade contenido desde el panel.</p>';
+                subBlocksHTML = '<p style="color:#777; text-align: center; padding: 20px;">Este departamento está vacío. Añade subsecciones o bloques desde el panel gestor.</p>';
             }
 
             deptSection.innerHTML = `
@@ -151,15 +149,14 @@
                 reenvoudData[dIdx].blocks.splice(bIdx, 1);
                 saveData();
                 renderSystem();
-                // Mantener activa la vista actual
                 const activeSec = document.querySelector(".view-section.active-view");
                 if (activeSec) switchView(activeSec.id);
             });
         });
     }
 
-    // Configurar enlace de Inicio en el HTML principal si existe
-    const inicioLink = document.querySelector('a[href="#inicio"]');
+    // Enlace de Inicio en el menú lateral
+    const inicioLink = document.getElementById("nav-inicio-link");
     if (inicioLink) {
         inicioLink.addEventListener("click", (e) => {
             e.preventDefault();
@@ -179,13 +176,16 @@
                 saveData();
                 renderSystem();
                 newDeptInput.value = "";
+                // Entrar directamente al departamento nuevo (vacío o listo para sus bloques)
+                switchView(`dept-${reenvoudData.length - 1}`);
+                if (sideMenu) sideMenu.classList.remove("open");
             } else {
                 alert("Escribe un nombre para el área.");
             }
         });
     }
 
-    // Añadir subsección profesional o página al departamento seleccionado
+    // Añadir subsección o bloque al departamento seleccionado
     if (addBlockBtn) {
         addBlockBtn.addEventListener("click", () => {
             const selectedDeptIndex = targetDeptSelect.value;
@@ -200,8 +200,9 @@
                 saveData();
                 renderSystem();
                 blockTitleInput.value = "";
-                // Mostrar el departamento al que se le acaba de añadir el bloque
+                // Mostrar el departamento actualizado con su nuevo bloque
                 switchView(`dept-${selectedDeptIndex}`);
+                if (sideMenu) sideMenu.classList.remove("open");
             } else {
                 alert("Selecciona un departamento válido en el desplegable.");
             }
