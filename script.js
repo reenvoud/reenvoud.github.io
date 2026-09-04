@@ -34,8 +34,7 @@
         {
             name: "Inteligencia Artificial",
             blocks: [
-                { type: "article", title: "Introducción a Modelos LLM" },
-                { type: "project", title: "Entorno Ollama v3" }
+                { type: "article", title: "Introducción a Modelos LLM" }
             ]
         },
         {
@@ -52,9 +51,23 @@
         localStorage.setItem("reenvoud_system_data", JSON.stringify(reenvoudData));
     }
 
+    function switchView(targetId) {
+        // Ocultar todas las vistas
+        document.querySelectorAll(".view-section").forEach(sec => {
+            sec.classList.remove("active-view");
+        });
+        // Mostrar la vista seleccionada
+        const selected = document.getElementById(targetId);
+        if (selected) {
+            selected.classList.add("active-view");
+        }
+    }
+
     function renderSystem() {
         departmentsList.innerHTML = "";
         targetDeptSelect.innerHTML = "";
+        
+        // Mantener el contenedor de inicio y limpiar solo los departamentos dinámicos
         departmentsContentContainer.innerHTML = "";
 
         if (reenvoudData.length === 0) {
@@ -62,15 +75,17 @@
         }
 
         reenvoudData.forEach((dept, deptIndex) => {
-            // 1. Llenar menú lateral de áreas con cierre automático al hacer clic
+            const deptId = `dept-${deptIndex}`;
+
+            // 1. Enlace en el menú lateral
             const li = document.createElement("li");
             const a = document.createElement("a");
-            const deptId = `dept-${deptIndex}`;
             a.href = `#${deptId}`;
             a.textContent = dept.name;
             
-            // Cerrar menú al navegar a la sección
-            a.addEventListener("click", () => {
+            a.addEventListener("click", (e) => {
+                e.preventDefault();
+                switchView(deptId);
                 if (sideMenu) sideMenu.classList.remove("open");
             });
             
@@ -83,21 +98,22 @@
                 reenvoudData.splice(deptIndex, 1);
                 saveData();
                 renderSystem();
+                switchView("inicio");
             });
 
             li.appendChild(a);
             li.appendChild(delDeptBtn);
             departmentsList.appendChild(li);
 
-            // 2. Llenar selector del panel administrador
+            // 2. Selector en el panel administrador
             const option = document.createElement("option");
             option.value = deptIndex;
             option.textContent = dept.name;
             targetDeptSelect.appendChild(option);
 
-            // 3. Renderizar contenedor visual del departamento en la página principal
+            // 3. Contenedor independiente para este departamento
             const deptSection = document.createElement("section");
-            deptSection.className = "department-section";
+            deptSection.className = "view-section";
             deptSection.id = deptId;
 
             let subBlocksHTML = "";
@@ -107,13 +123,13 @@
                     subBlocksHTML += `
                         <div class="sub-block-item">
                             <h4>${badge} ${block.title}</h4>
-                            <p>Contenido profesional estructurado para la sección ${dept.name}.</p>
+                            <p>Contenido exclusivo de la sección ${dept.name}.</p>
                             <button class="delete-sub-btn" data-dept="${deptIndex}" data-block="${blockIndex}">🗑️ Borrar Subsección</button>
                         </div>
                     `;
                 });
             } else {
-                subBlocksHTML = '<p style="color:#777;">Sin subsecciones creadas todavía en esta área.</p>';
+                subBlocksHTML = '<p style="color:#777;">Este departamento está vacío. Añade contenido desde el panel.</p>';
             }
 
             deptSection.innerHTML = `
@@ -135,7 +151,20 @@
                 reenvoudData[dIdx].blocks.splice(bIdx, 1);
                 saveData();
                 renderSystem();
+                // Mantener activa la vista actual
+                const activeSec = document.querySelector(".view-section.active-view");
+                if (activeSec) switchView(activeSec.id);
             });
+        });
+    }
+
+    // Configurar enlace de Inicio en el HTML principal si existe
+    const inicioLink = document.querySelector('a[href="#inicio"]');
+    if (inicioLink) {
+        inicioLink.addEventListener("click", (e) => {
+            e.preventDefault();
+            switchView("inicio");
+            if (sideMenu) sideMenu.classList.remove("open");
         });
     }
 
@@ -171,6 +200,8 @@
                 saveData();
                 renderSystem();
                 blockTitleInput.value = "";
+                // Mostrar el departamento al que se le acaba de añadir el bloque
+                switchView(`dept-${selectedDeptIndex}`);
             } else {
                 alert("Selecciona un departamento válido en el desplegable.");
             }
