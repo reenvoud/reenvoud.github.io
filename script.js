@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const menuToggle = document.getElementById("menu-toggle");
     const sideMenu = document.getElementById("side-menu");
     const closeMenu = document.getElementById("close-menu");
+    const backBtn = document.getElementById("back-btn");
 
     if (menuToggle && sideMenu) {
         menuToggle.addEventListener("click", () => sideMenu.classList.add("open"));
@@ -18,6 +19,17 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
     });
+
+    // Control del botón de retroceso físico en pantalla
+    if (backBtn) {
+        backBtn.addEventListener("click", () => {
+            if (window.location.hash && window.location.hash !== "#inicio") {
+                history.back();
+            } else {
+                switchView("inicio", true);
+            }
+        });
+    }
 
     const addDeptBtn = document.getElementById("add-dept-btn");
     const newDeptInput = document.getElementById("new-dept-name");
