@@ -48,6 +48,11 @@
                     <option value="multimedia">Bloque Multimedia Avanzado (Video/3D)</option>
                     <option value="project">Tarjeta de Proyecto o Software</option>
                 </select>
+                
+                <!-- Selector universal para cargar cualquier formato de imagen o video -->
+                <label style="margin-top: 8px; color: #ff9999;">Cualquier Formato (Imagen o Video):</label>
+                <input type="file" id="block-file" accept="image/*,video/*" style="font-size: 0.8rem; margin-bottom: 6px; color: #fff;">
+
                 <input type="text" id="block-title" placeholder="Título de la subsección o página">
                 <button id="add-block-btn" class="builder-btn">Añadir al Área</button>
             </div>
@@ -70,14 +75,10 @@
             <div class="media-container">
                 <!-- Espacio multimedia adaptado para imagen o video -->
                 <div class="media-placeholder" style="border: none; background: transparent; height: auto;">
-                    <!-- Ejemplo de Video (puedes cambiar controls, src, etc.) -->
                     <video controls style="width: 100%; max-height: 400px; border-radius: 12px; border: 2px solid #8b0000; background-color: #000;">
                         <source src="tu-video.mp4" type="video/mp4">
                         Tu navegador no soporta la reproducción de video.
                     </video>
-                    
-                    <!-- O si prefieres una imagen, descomenta la siguiente línea y borra o comenta la etiqueta video de arriba: -->
-                    <!-- <img src="tu-imagen.jpg" alt="Multimedia Principal" style="width: 100%; height: auto; border-radius: 12px; border: 2px solid #8b0000;"> -->
                 </div>
             </div>
             <h1>Reenvoud Corporation</h1>
