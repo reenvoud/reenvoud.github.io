@@ -37,7 +37,8 @@
             <div class="form-group">
                 <label>Asignar a Departamento:</label>
                 <select id="target-dept-select">
-                    </select>
+                    <!-- Se llena dinámicamente -->
+                </select>
             </div>
             <div class="form-group">
                 <label>Tipo de Contenido Profesional:</label>
@@ -54,11 +55,17 @@
         <hr class="menu-divider">
 
         <h3>📂 Áreas Activas y Estructura</h3>
-        <ul class="menu-links" id="departments-list"></ul>
+        <ul class="menu-links" id="departments-list">
+            <!-- Opción fija para volver al inicio -->
+            <li>
+                <a href="#inicio" id="nav-inicio-link">Inicio / Principal</a>
+            </li>
+        </ul>
     </nav>
 
+    <!-- Contenedor principal con la vista de inicio activa por defecto -->
     <div id="dynamic-wrapper">
-        <section class="hero-block" id="inicio">
+        <section class="view-section active-view hero-block" id="inicio">
             <div class="media-container">
                 <div class="media-placeholder">
                     <p>🎬 Espacio Multimedia Principal</p>
@@ -69,6 +76,7 @@
         </section>
     </div>
 
+    <!-- Contenedor donde se generan dinámicamente los departamentos -->
     <div id="departments-content-container"></div>
 
     <main class="main-content">
