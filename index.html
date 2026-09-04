@@ -1,13 +1,15 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reenvoud Corporation | Jonathan Carela Burgos</title>
-    <link rel="stylesheet" href="style.css">
+    <!-- Se agrega ?v=2 para forzar la lectura del CSS y evitar el fondo blanco -->
+    <link rel="stylesheet" href="style.css?v=2">
 </head>
 <body>
 
+    <!-- Barra Superior -->
     <header class="top-bar">
         <div class="left-menu-bar">
             <button class="menu-toggle-btn" id="menu-toggle">⚡ Panel Gestor</button>
@@ -19,6 +21,7 @@
         </div>
     </header>
 
+    <!-- Panel Lateral / CMS Dinámico -->
     <nav class="side-menu" id="side-menu">
         <div class="menu-header">
             <h2>Reenvoud OS</h2>
@@ -55,6 +58,7 @@
         </ul>
     </nav>
 
+    <!-- Contenedor Principal Dinámico -->
     <div id="dynamic-wrapper">
         <section class="hero-block" id="inicio">
             <div class="media-container">
@@ -67,6 +71,7 @@
         </section>
     </div>
 
+    <!-- Contenedor para elementos creados por el usuario -->
     <div id="user-blocks-container"></div>
 
     <main class="main-content">
