@@ -1,5 +1,5 @@
 
-body {
+    body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #0d0d0d;
     color: #e0e0e0;
@@ -12,9 +12,9 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px 15px;
+    padding: 12px 20px;
     background-color: #121212;
-    border-bottom: 1px solid #260a0a;
+    border-bottom: 1px solid #3a0000;
     position: sticky;
     top: 0;
     z-index: 99;
@@ -22,33 +22,42 @@ body {
 
 .left-action-bar {
     display: flex;
-    gap: 8px;
+    gap: 10px;
 }
 
 .action-btn {
     background-color: #1a1a1a;
     border: 1px solid #8b0000;
     color: #fff;
-    padding: 6px 10px;
+    padding: 6px 12px;
     border-radius: 6px;
     cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.action-btn:hover {
+    background-color: #8b0000;
 }
 
 .menu-toggle-btn {
     background-color: #8b0000;
     color: #fff;
     border: none;
-    padding: 8px 14px;
+    padding: 8px 16px;
     border-radius: 6px;
     cursor: pointer;
     font-weight: bold;
+}
+
+.menu-toggle-btn:hover {
+    background-color: #a30000;
 }
 
 .side-menu {
     position: fixed;
     top: 0;
     right: -300px;
-    width: 260px;
+    width: 280px;
     height: 100%;
     background-color: #141414;
     border-left: 2px solid #8b0000;
@@ -73,7 +82,7 @@ body {
 
 .menu-header h2 {
     color: #ff4d4d;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     margin: 0;
 }
 
@@ -81,7 +90,7 @@ body {
     background: none;
     border: none;
     color: #fff;
-    font-size: 1.6rem;
+    font-size: 1.8rem;
     cursor: pointer;
 }
 
@@ -99,26 +108,31 @@ body {
     color: #ccc;
     text-decoration: none;
     font-size: 1rem;
+    transition: color 0.2s;
+}
+
+.menu-links a:hover {
+    color: #ff4d4d;
 }
 
 .hero-block {
     text-align: center;
-    padding: 30px 15px;
+    padding: 40px 20px;
     background: linear-gradient(180deg, #1a0505 0%, #0d0d0d 100%);
     border-bottom: 1px solid #260a0a;
 }
 
 .media-container {
-    max-width: 100%;
-    margin: 0 auto 15px auto;
+    max-width: 900px;
+    margin: 0 auto 20px auto;
 }
 
 .media-placeholder {
     width: 100%;
-    height: 220px;
+    height: 250px;
     background-color: #161616;
     border: 2px dashed #590000;
-    border-radius: 10px;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -127,17 +141,17 @@ body {
 
 h1 {
     color: #fff;
-    font-size: 1.8rem;
+    font-size: 2.2rem;
     margin: 10px 0;
 }
 
 .founder-subtitle {
     color: #b3b3b3;
-    font-size: 1rem;
+    font-size: 1.1rem;
 }
 
 .main-content {
-    padding: 20px;
+    padding: 30px 20px;
     text-align: center;
 }
 
@@ -148,12 +162,12 @@ h1 {
 
 @media (min-width: 768px) {
     .hero-block {
-        padding: 50px 30px;
+        padding: 60px 40px;
     }
     .media-placeholder {
         height: 380px;
     }
     h1 {
-        font-size: 2.8rem;
+        font-size: 3rem;
     }
 }
