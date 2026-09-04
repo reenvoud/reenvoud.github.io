@@ -1,20 +1,30 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Lógica para abrir y cerrar el menú lateral
     const menuToggle = document.getElementById("menu-toggle");
     const sideMenu = document.getElementById("side-menu");
     const closeMenu = document.getElementById("close-menu");
 
-    if (menuToggle && sideMenu && closeMenu) {
+    if (menuToggle && sideMenu) {
         menuToggle.addEventListener("click", () => {
             sideMenu.classList.add("open");
         });
+    }
 
+    if (closeMenu && sideMenu) {
         closeMenu.addEventListener("click", () => {
             sideMenu.classList.remove("open");
         });
     }
 
-    // Funcionalidad dinámica del sistema en la sección principal
+    // Cerrar menú al hacer clic fuera de él
+    document.addEventListener("click", (event) => {
+        if (sideMenu && sideMenu.classList.contains("open")) {
+            if (!sideMenu.contains(event.target) && !menuToggle.contains(event.target)) {
+                sideMenu.classList.remove("open");
+            }
+        }
+    });
+
+    // Actualización dinámica de fecha
     const container = document.getElementById("dynamic-content");
     const fechaActual = new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
     
@@ -22,4 +32,3 @@ document.addEventListener("DOMContentLoaded", () => {
         container.textContent = `Módulos de Reenvoud Corporation activos - Fecha: ${fechaActual}`;
     }
 });
-
