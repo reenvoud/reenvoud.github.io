@@ -30,6 +30,23 @@
         });
     }
 
+    // Control de audio para el video principal por defecto
+    const heroVideo = document.getElementById("hero-default-video");
+    const soundToggleBtn = document.getElementById("hero-sound-toggle");
+
+    if (heroVideo && soundToggleBtn) {
+        soundToggleBtn.addEventListener("click", () => {
+            heroVideo.muted = !heroVideo.muted;
+            if (heroVideo.muted) {
+                soundToggleBtn.textContent = "🔇 Activar Sonido";
+                soundToggleBtn.style.background = "rgba(0, 0, 0, 0.7)";
+            } else {
+                soundToggleBtn.textContent = "🔊 Silenciar";
+                soundToggleBtn.style.background = "rgba(139, 0, 0, 0.85)";
+            }
+        });
+    }
+
     const addDeptBtn = document.getElementById("add-dept-btn");
     const newDeptInput = document.getElementById("new-dept-name");
     const departmentsList = document.getElementById("departments-list");
@@ -246,7 +263,7 @@
 
                 if (file) {
                     newBlock.mediaUrl = URL.createObjectURL(file);
-                    newBlock.mediaType = file.type; // Captura cualquier formato automáticamente (video/mp4, image/png, video/mkv, etc.)
+                    newBlock.mediaType = file.type;
                 }
 
                 reenvoudData[selectedDeptIndex].blocks.push(newBlock);
