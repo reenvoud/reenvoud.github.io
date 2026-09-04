@@ -165,37 +165,38 @@ body {
 }
 
 .menu-links li {
-    margin-bottom: 12px;
+    margin-bottom: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background: #180505;
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid #4a0000;
 }
 
 .menu-links a {
     color: #cccccc;
     text-decoration: none;
-    font-size: 0.95rem;
-    display: block;
-    transition: color 0.2s;
+    font-size: 0.9rem;
+    flex-grow: 1;
 }
 
 .menu-links a:hover {
     color: #ff4d4d;
 }
 
-.delete-btn {
-    background-color: #4a0000;
-    color: #ff9999;
-    border: 1px solid #8b0000;
-    padding: 3px 8px;
-    border-radius: 4px;
+.delete-dept-btn {
+    background: none;
+    border: none;
+    color: #ff6666;
     cursor: pointer;
-    font-size: 0.75rem;
+    font-size: 1rem;
+    padding: 2px 6px;
 }
 
-.delete-btn:hover {
-    background-color: #ff0000;
-    color: #fff;
+.delete-dept-btn:hover {
+    color: #ff0000;
 }
 
 .hero-block {
@@ -203,7 +204,6 @@ body {
     padding: 50px 20px;
     background: linear-gradient(180deg, #180505 0%, #070707 100%);
     border-bottom: 1px solid #200808;
-    position: relative;
 }
 
 .media-container {
