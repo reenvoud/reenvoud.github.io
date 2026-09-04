@@ -25,7 +25,7 @@ body {
 .left-menu-bar {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
 }
 
 .menu-toggle-btn {
@@ -53,24 +53,24 @@ body {
     cursor: pointer;
 }
 
-/* Estilo específico y forzado para el botón de retroceso en pantalla */
+/* Botón de retroceso optimizado y forzado a mostrarse correctamente */
 #back-btn {
-    background: linear-gradient(135deg, #330000, #1a0000);
-    border: 1px solid #ff4d4d;
-    color: #fff;
-    padding: 8px 12px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 1rem;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 8px rgba(255, 0, 0, 0.2);
+    background: linear-gradient(135deg, #330000, #1a0000) !important;
+    border: 1px solid #ff4d4d !important;
+    color: #fff !important;
+    padding: 9px 12px !important;
+    border-radius: 8px !important;
+    cursor: pointer !important;
+    font-size: 1rem !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 2px 8px rgba(255, 0, 0, 0.2) !important;
 }
 
 #back-btn:hover {
-    background-color: #5a0000;
-    border-color: #ff6666;
+    background: linear-gradient(135deg, #5a0000, #330000) !important;
+    border-color: #ff8080 !important;
 }
 
 .side-menu {
@@ -209,7 +209,7 @@ body {
     padding: 2px 6px;
 }
 
-/* Control de vistas: Ocultar secciones por defecto, mostrar solo la activa */
+/* Control de vistas */
 .view-section {
     display: none;
     max-width: 900px;
