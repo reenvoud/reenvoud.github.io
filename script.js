@@ -28,49 +28,42 @@ document.addEventListener("DOMContentLoaded", () => {
     const blockTitleInput = document.getElementById("block-title");
     const userBlocksContainer = document.getElementById("user-blocks-container");
 
-    let savedDepts = JSON.parse(localStorage.getItem("reenvoud_depts")) || [];
+    // Departamentos por defecto si está vacío
+    let defaultDepts = ["Inicio / Principal", "Inteligencia Artificial", "Desarrollo de Software", "Arquitectura Modular"];
+    let savedDepts = JSON.parse(localStorage.getItem("reenvoud_depts")) || defaultDepts;
     let savedBlocks = JSON.parse(localStorage.getItem("reenvoud_blocks")) || [];
 
-    function renderSavedData() {
-        // Renderizar departamentos guardados con su botón de borrar
+    function renderDepartments() {
+        departmentsList.innerHTML = "";
         savedDepts.forEach((dept, index) => {
-            appendDeptToDOM(dept, index);
-        });
+            const li = document.createElement("li");
+            
+            const a = document.createElement("a");
+            a.href = `#${dept.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
+            a.textContent = dept;
+            
+            const delBtn = document.createElement("button");
+            delBtn.innerHTML = "🗑️";
+            delBtn.className = "delete-dept-btn";
+            delBtn.title = "Borrar sección";
+            
+            delBtn.addEventListener("click", () => {
+                savedDepts.splice(index, 1);
+                localStorage.setItem("reenvoud_depts", JSON.stringify(savedDepts));
+                renderDepartments();
+            });
 
-        // Renderizar bloques guardados con su botón de borrar
-        savedBlocks.forEach((block, index) => {
-            appendBlockToDOM(block.type, block.title, index);
+            li.appendChild(a);
+            li.appendChild(delBtn);
+            departmentsList.appendChild(li);
         });
     }
 
-    function appendDeptToDOM(deptName, index) {
-        const li = document.createElement("li");
-        
-        const a = document.createElement("a");
-        a.href = `#${deptName.toLowerCase().replace(/\s+/g, '-')}`;
-        a.textContent = deptName;
-        
-        const delBtn = document.createElement("button");
-        delBtn.textContent = "🗑️";
-        delBtn.className = "delete-btn";
-        delBtn.title = "Borrar departamento";
-        delBtn.addEventListener("click", () => {
-            savedDepts.splice(index, 1);
-            localStorage.setItem("reenvoud_depts", JSON.stringify(savedDepts));
-            departmentsList.innerHTML = '';
-            // Mantener los fijos por defecto
-            departmentsList.innerHTML = `
-                <li><a href="#inicio">Inicio / Principal</a></li>
-                <li><a href="#ia">Inteligencia Artificial</a></li>
-                <li><a href="#desarrollo">Desarrollo de Software</a></li>
-                <li><a href="#arquitectura">Arquitectura Modular</a></li>
-            `;
-            savedDepts.forEach((d, i) => appendDeptToDOM(d, i));
+    function renderBlocks() {
+        userBlocksContainer.innerHTML = "";
+        savedBlocks.forEach((block, index) => {
+            appendBlockToDOM(block.type, block.title, index);
         });
-
-        li.appendChild(a);
-        li.appendChild(delBtn);
-        departmentsList.appendChild(li);
     }
 
     function appendBlockToDOM(type, title, index) {
@@ -95,8 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
         delBlockBtn.addEventListener("click", () => {
             savedBlocks.splice(index, 1);
             localStorage.setItem("reenvoud_blocks", JSON.stringify(savedBlocks));
-            userBlocksContainer.innerHTML = '';
-            savedBlocks.forEach((b, i) => appendBlockToDOM(b.type, b.title, i));
+            renderBlocks();
         });
 
         blockDiv.innerHTML = contentHTML;
@@ -104,7 +96,8 @@ document.addEventListener("DOMContentLoaded", () => {
         userBlocksContainer.appendChild(blockDiv);
     }
 
-    renderSavedData();
+    renderDepartments();
+    renderBlocks();
 
     if (addDeptBtn) {
         addDeptBtn.addEventListener("click", () => {
@@ -112,17 +105,8 @@ document.addEventListener("DOMContentLoaded", () => {
             if (deptName) {
                 savedDepts.push(deptName);
                 localStorage.setItem("reenvoud_depts", JSON.stringify(savedDepts));
-                
-                departmentsList.innerHTML = `
-                    <li><a href="#inicio">Inicio / Principal</a></li>
-                    <li><a href="#ia">Inteligencia Artificial</a></li>
-                    <li><a href="#desarrollo">Desarrollo de Software</a></li>
-                    <li><a href="#arquitectura">Arquitectura Modular</a></li>
-                `;
-                savedDepts.forEach((d, i) => appendDeptToDOM(d, i));
-                
+                renderDepartments();
                 newDeptInput.value = "";
-                alert(`Departamento "${deptName}" creado.`);
             }
         });
     }
@@ -134,12 +118,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
             savedBlocks.push({ type, title });
             localStorage.setItem("reenvoud_blocks", JSON.stringify(savedBlocks));
-
-            userBlocksContainer.innerHTML = '';
-            savedBlocks.forEach((b, i) => appendBlockToDOM(b.type, b.title, i));
-            
+            renderBlocks();
             blockTitleInput.value = "";
-            alert("Bloque añadido.");
         });
     }
 
