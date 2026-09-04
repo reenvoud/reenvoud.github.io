@@ -50,18 +50,33 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.setItem("reenvoud_system_data", JSON.stringify(reenvoudData));
     }
 
-    function switchView(targetId) {
-        // Ocultar TODO (tanto el inicio como todos los departamentos)
+    function switchView(targetId, updateHistory = true) {
+        // Ocultar todas las vistas
         document.querySelectorAll(".view-section").forEach(sec => {
             sec.classList.remove("active-view");
         });
         
-        // Mostrar únicamente la vista seleccionada
+        // Mostrar la vista seleccionada
         const selected = document.getElementById(targetId);
         if (selected) {
             selected.classList.add("active-view");
         }
+
+        // Actualizar el historial del navegador para que funcione el botón "Atrás"
+        if (updateHistory) {
+            const newUrl = `#${targetId}`;
+            history.pushState({ view: targetId }, "", newUrl);
+        }
     }
+
+    // Escuchar cuando el usuario presiona las flechas de "Atrás" o "Adelante" del navegador
+    window.addEventListener("popstate", (event) => {
+        if (event.state && event.state.view) {
+            switchView(event.state.view, false);
+        } else {
+            switchView("inicio", false);
+        }
+    });
 
     function renderSystem() {
         departmentsList.innerHTML = "";
@@ -83,7 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
             
             a.addEventListener("click", (e) => {
                 e.preventDefault();
-                switchView(deptId);
+                switchView(deptId, true);
                 if (sideMenu) sideMenu.classList.remove("open");
             });
             
@@ -96,7 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 reenvoudData.splice(deptIndex, 1);
                 saveData();
                 renderSystem();
-                switchView("inicio");
+                switchView("inicio", true);
             });
 
             li.appendChild(a);
@@ -111,7 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // 3. Contenedor de vista independiente para este departamento
             const deptSection = document.createElement("section");
-            deptSection.className = "view-section"; // Sin active-view por defecto para que esté oculto
+            deptSection.className = "view-section";
             deptSection.id = deptId;
 
             let subBlocksHTML = "";
@@ -150,7 +165,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 saveData();
                 renderSystem();
                 const activeSec = document.querySelector(".view-section.active-view");
-                if (activeSec) switchView(activeSec.id);
+                if (activeSec) switchView(activeSec.id, false);
             });
         });
     }
@@ -160,12 +175,20 @@ document.addEventListener("DOMContentLoaded", () => {
     if (inicioLink) {
         inicioLink.addEventListener("click", (e) => {
             e.preventDefault();
-            switchView("inicio");
+            switchView("inicio", true);
             if (sideMenu) sideMenu.classList.remove("open");
         });
     }
 
     renderSystem();
+
+    // Comprobar si se cargó la página con un hash existente
+    if (window.location.hash) {
+        const initialView = window.location.hash.substring(1);
+        if (document.getElementById(initialView)) {
+            switchView(initialView, false);
+        }
+    }
 
     // Crear nuevo departamento principal
     if (addDeptBtn) {
@@ -176,8 +199,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 saveData();
                 renderSystem();
                 newDeptInput.value = "";
-                // Entrar directamente al departamento nuevo (vacío o listo para sus bloques)
-                switchView(`dept-${reenvoudData.length - 1}`);
+                switchView(`dept-${reenvoudData.length - 1}`, true);
                 if (sideMenu) sideMenu.classList.remove("open");
             } else {
                 alert("Escribe un nombre para el área.");
@@ -200,8 +222,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 saveData();
                 renderSystem();
                 blockTitleInput.value = "";
-                // Mostrar el departamento actualizado con su nuevo bloque
-                switchView(`dept-${selectedDeptIndex}`);
+                switchView(`dept-${selectedDeptIndex}`, true);
                 if (sideMenu) sideMenu.classList.remove("open");
             } else {
                 alert("Selecciona un departamento válido en el desplegable.");
