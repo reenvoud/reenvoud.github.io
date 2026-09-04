@@ -35,17 +35,15 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Sincronización fija y activa del servidor local
+    // Forzar estado activo visualmente de inmediato
     const indicadorPanel = document.getElementById("estado-servidor-panel");
+    if (indicadorPanel) {
+        indicadorPanel.innerText = "🟢 Servidor Local: Enlazado y Activo";
+        indicadorPanel.style.cssText = "border-color: #00ff66 !important; color: #ccffcc !important; background-color: rgba(0, 255, 102, 0.1) !important;";
+    }
+
     const container = document.getElementById("dynamic-content");
     const fechaActual = new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
-    
-    if (indicadorPanel) {
-        indicadorPanel.innerHTML = "🟢 Servidor Local: Enlazado y Activo";
-        indicadorPanel.style.borderColor = "#00ff66";
-        indicadorPanel.style.color = "#ccffcc";
-    }
-    
     if (container) {
         container.textContent = `Reenvoud OS Panel Pro Activo | Servidor Local Enlazado (Cloudflare) - Fecha: ${fechaActual}`;
     }
