@@ -62,12 +62,17 @@
         }
 
         reenvoudData.forEach((dept, deptIndex) => {
-            // 1. Llenar menú lateral de áreas
+            // 1. Llenar menú lateral de áreas con cierre automático al hacer clic
             const li = document.createElement("li");
             const a = document.createElement("a");
             const deptId = `dept-${deptIndex}`;
             a.href = `#${deptId}`;
             a.textContent = dept.name;
+            
+            // Cerrar menú al navegar a la sección
+            a.addEventListener("click", () => {
+                if (sideMenu) sideMenu.classList.remove("open");
+            });
             
             const delDeptBtn = document.createElement("button");
             delDeptBtn.innerHTML = "🗑️";
@@ -84,7 +89,7 @@
             li.appendChild(delDeptBtn);
             departmentsList.appendChild(li);
 
-            // 2. Llenar selector del panel administrador de forma limpia
+            // 2. Llenar selector del panel administrador
             const option = document.createElement("option");
             option.value = deptIndex;
             option.textContent = dept.name;
