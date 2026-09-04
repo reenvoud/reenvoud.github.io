@@ -20,7 +20,6 @@
         }
     });
 
-    // Control del botón de retroceso físico en pantalla
     if (backBtn) {
         backBtn.addEventListener("click", () => {
             if (window.location.hash && window.location.hash !== "#inicio") {
@@ -38,6 +37,7 @@
 
     const addBlockBtn = document.getElementById("add-block-btn");
     const blockTypeSelect = document.getElementById("block-type");
+    const blockFileInput = document.getElementById("block-file");
     const blockTitleInput = document.getElementById("block-title");
     const departmentsContentContainer = document.getElementById("departments-content-container");
 
@@ -45,13 +45,13 @@
         {
             name: "Inteligencia Artificial",
             blocks: [
-                { type: "article", title: "Introducción a Modelos LLM" }
+                { type: "article", title: "Introducción a Modelos LLM", mediaUrl: "", mediaType: "" }
             ]
         },
         {
             name: "Desarrollo de Software",
             blocks: [
-                { type: "multimedia", title: "Arquitectura Modular Reenvoud" }
+                { type: "multimedia", title: "Arquitectura Modular Reenvoud", mediaUrl: "", mediaType: "" }
             ]
         }
     ];
@@ -63,25 +63,21 @@
     }
 
     function switchView(targetId, updateHistory = true) {
-        // Ocultar todas las vistas
         document.querySelectorAll(".view-section").forEach(sec => {
             sec.classList.remove("active-view");
         });
         
-        // Mostrar la vista seleccionada
         const selected = document.getElementById(targetId);
         if (selected) {
             selected.classList.add("active-view");
         }
 
-        // Actualizar el historial del navegador para que funcione el botón "Atrás"
         if (updateHistory) {
             const newUrl = `#${targetId}`;
             history.pushState({ view: targetId }, "", newUrl);
         }
     }
 
-    // Escuchar cuando el usuario presiona las flechas de "Atrás" o "Adelante" del navegador
     window.addEventListener("popstate", (event) => {
         if (event.state && event.state.view) {
             switchView(event.state.view, false);
@@ -102,7 +98,6 @@
         reenvoudData.forEach((dept, deptIndex) => {
             const deptId = `dept-${deptIndex}`;
 
-            // 1. Elemento en el menú lateral
             const li = document.createElement("li");
             const a = document.createElement("a");
             a.href = `#${deptId}`;
@@ -130,13 +125,11 @@
             li.appendChild(delDeptBtn);
             departmentsList.appendChild(li);
 
-            // 2. Selector del panel administrador
             const option = document.createElement("option");
             option.value = deptIndex;
             option.textContent = dept.name;
             targetDeptSelect.appendChild(option);
 
-            // 3. Contenedor de vista independiente para este departamento
             const deptSection = document.createElement("section");
             deptSection.className = "view-section";
             deptSection.id = deptId;
@@ -146,19 +139,24 @@
                 dept.blocks.forEach((block, blockIndex) => {
                     let badge = block.type === 'article' ? '📝 [Artículo / Blog]' : (block.type === 'multimedia' ? '🎬 [Multimedia]' : '📌 [Proyecto]');
                     
-                    // Adaptación para renderizar multimedia (video o imagen) dinámicamente si es creado como multimedia
                     let mediaElementHTML = '';
-                    if (block.type === 'multimedia') {
-                        mediaElementHTML = `
-                            <div style="margin: 12px 0;">
-                                <video controls style="width: 100%; max-height: 300px; border-radius: 8px; border: 1px solid #7a0000; background: #000;">
-                                    <source src="tu-video.mp4" type="video/mp4">
-                                    Tu navegador no soporta video.
-                                </video>
-                                <!-- O si prefieres imagen, cambia la etiqueta de arriba por: -->
-                                <!-- <img src="tu-imagen.jpg" alt="${block.title}" style="width: 100%; height: auto; border-radius: 8px; border: 1px solid #7a0000;"> -->
-                            </div>
-                        `;
+                    if (block.mediaUrl) {
+                        if (block.mediaType && block.mediaType.startsWith("video")) {
+                            mediaElementHTML = `
+                                <div style="margin: 12px 0;">
+                                    <video controls style="width: 100%; max-height: 350px; border-radius: 8px; border: 1px solid #7a0000; background: #000;">
+                                        <source src="${block.mediaUrl}" type="${block.mediaType}">
+                                        Tu navegador no soporta la reproducción de video.
+                                    </video>
+                                </div>
+                            `;
+                        } else if (block.mediaType && block.mediaType.startsWith("image")) {
+                            mediaElementHTML = `
+                                <div style="margin: 12px 0;">
+                                    <img src="${block.mediaUrl}" alt="${block.title}" style="width: 100%; height: auto; max-height: 350px; object-fit: contain; border-radius: 8px; border: 1px solid #7a0000; background: #000;">
+                                </div>
+                            `;
+                        }
                     }
 
                     subBlocksHTML += `
@@ -185,7 +183,6 @@
             departmentsContentContainer.appendChild(deptSection);
         });
 
-        // Activar eventos de borrado de subsecciones
         document.querySelectorAll(".delete-sub-btn").forEach(btn => {
             btn.addEventListener("click", (e) => {
                 const dIdx = e.target.getAttribute("data-dept");
@@ -199,7 +196,6 @@
         });
     }
 
-    // Enlace de Inicio en el menú lateral
     const inicioLink = document.getElementById("nav-inicio-link");
     if (inicioLink) {
         inicioLink.addEventListener("click", (e) => {
@@ -211,7 +207,6 @@
 
     renderSystem();
 
-    // Comprobar si se cargó la página con un hash existente
     if (window.location.hash) {
         const initialView = window.location.hash.substring(1);
         if (document.getElementById(initialView)) {
@@ -219,7 +214,6 @@
         }
     }
 
-    // Crear nuevo departamento principal
     if (addDeptBtn) {
         addDeptBtn.addEventListener("click", () => {
             const name = newDeptInput.value.trim();
@@ -236,21 +230,31 @@
         });
     }
 
-    // Añadir subsección o bloque al departamento seleccionado
     if (addBlockBtn) {
         addBlockBtn.addEventListener("click", () => {
             const selectedDeptIndex = targetDeptSelect.value;
             const type = blockTypeSelect.value;
             const title = blockTitleInput.value.trim() || "Nueva Página Profesional";
+            const file = blockFileInput.files[0];
 
             if (selectedDeptIndex !== "" && reenvoudData[selectedDeptIndex]) {
                 if (!reenvoudData[selectedDeptIndex].blocks) {
                     reenvoudData[selectedDeptIndex].blocks = [];
                 }
-                reenvoudData[selectedDeptIndex].blocks.push({ type, title });
+
+                let newBlock = { type, title, mediaUrl: "", mediaType: "" };
+
+                if (file) {
+                    newBlock.mediaUrl = URL.createObjectURL(file);
+                    newBlock.mediaType = file.type; // Captura cualquier formato automáticamente (video/mp4, image/png, video/mkv, etc.)
+                }
+
+                reenvoudData[selectedDeptIndex].blocks.push(newBlock);
                 saveData();
                 renderSystem();
+                
                 blockTitleInput.value = "";
+                blockFileInput.value = "";
                 switchView(`dept-${selectedDeptIndex}`, true);
                 if (sideMenu) sideMenu.classList.remove("open");
             } else {
