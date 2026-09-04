@@ -4,17 +4,25 @@ document.addEventListener("DOMContentLoaded", () => {
     const closeMenu = document.getElementById("close-menu");
     const backBtn = document.getElementById("back-btn");
 
+    // Control de apertura del menú lateral (Hamburguesa)
     if (menuToggle && sideMenu) {
-        menuToggle.addEventListener("click", () => sideMenu.classList.add("open"));
+        menuToggle.addEventListener("click", (e) => {
+            e.stopPropagation();
+            sideMenu.classList.toggle("open");
+        });
     }
 
+    // Control de cierre del menú lateral
     if (closeMenu && sideMenu) {
-        closeMenu.addEventListener("click", () => sideMenu.classList.remove("open"));
+        closeMenu.addEventListener("click", () => {
+            sideMenu.classList.remove("open");
+        });
     }
 
+    // Cerrar menú al hacer clic fuera de él
     document.addEventListener("click", (event) => {
         if (sideMenu && sideMenu.classList.contains("open")) {
-            if (!sideMenu.contains(event.target) && !menuToggle.contains(event.target)) {
+            if (!sideMenu.contains(event.target) && (!menuToggle || !menuToggle.contains(event.target))) {
                 sideMenu.classList.remove("open");
             }
         }
@@ -75,7 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const savedHeroMedia = localStorage.getItem("reenvoud_hero_media");
     const savedHeroType = localStorage.getItem("reenvoud_hero_type");
 
-    if (savedHeroMedia && savedHeroType) {
+    if (savedHeroMedia && savedHeroType && heroMediaDisplay) {
         if (savedHeroType.startsWith("video")) {
             heroMediaDisplay.innerHTML = `
                 <video id="hero-default-video" autoplay loop muted playsinline style="width: 100%; max-height: 400px; border-radius: 12px; border: 2px solid #8b0000; background-color: #000; object-fit: cover;">
@@ -92,7 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    if (heroFileInput) {
+    if (heroFileInput && heroMediaDisplay) {
         heroFileInput.addEventListener("change", (e) => {
             const file = e.target.files[0];
             if (file) {
@@ -194,6 +202,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     function renderSystem() {
+        if (!departmentsList || !targetDeptSelect || !departmentsContentContainer) return;
+
         departmentsList.innerHTML = "";
         targetDeptSelect.innerHTML = "";
         departmentsContentContainer.innerHTML = "";
@@ -321,7 +331,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    if (addDeptBtn) {
+    if (addDeptBtn && newDeptInput) {
         addDeptBtn.addEventListener("click", () => {
             const name = newDeptInput.value.trim();
             if (name) {
@@ -337,12 +347,12 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    if (addBlockBtn) {
+    if (addBlockBtn && targetDeptSelect && blockTypeSelect && blockTitleInput) {
         addBlockBtn.addEventListener("click", () => {
             const selectedDeptIndex = targetDeptSelect.value;
             const type = blockTypeSelect.value;
             const title = blockTitleInput.value.trim() || "Nueva Página Profesional";
-            const file = blockFileInput.files[0];
+            const file = blockFileInput && blockFileInput.files ? blockFileInput.files[0] : null;
 
             if (selectedDeptIndex !== "" && reenvoudData[selectedDeptIndex]) {
                 if (!reenvoudData[selectedDeptIndex].blocks) {
@@ -361,7 +371,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 renderSystem();
                 
                 blockTitleInput.value = "";
-                blockFileInput.value = "";
+                if (blockFileInput) blockFileInput.value = "";
                 switchView(`dept-${selectedDeptIndex}`, true);
                 if (sideMenu) sideMenu.classList.remove("open");
             } else {
@@ -369,6 +379,5 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
-});
 });
        
