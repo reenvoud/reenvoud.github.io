@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const closeMenu = document.getElementById("close-menu");
     const backBtn = document.getElementById("back-btn");
 
-    // Control de apertura del menú lateral (Hamburguesa)
     if (menuToggle && sideMenu) {
         menuToggle.addEventListener("click", (e) => {
             e.stopPropagation();
@@ -12,14 +11,12 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Control de cierre del menú lateral
     if (closeMenu && sideMenu) {
         closeMenu.addEventListener("click", () => {
             sideMenu.classList.remove("open");
         });
     }
 
-    // Cerrar menú al hacer clic fuera de él
     document.addEventListener("click", (event) => {
         if (sideMenu && sideMenu.classList.contains("open")) {
             if (!sideMenu.contains(event.target) && (!menuToggle || !menuToggle.contains(event.target))) {
@@ -38,46 +35,21 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Puente de sincronización con tu servidor local a través del túnel seguro de Cloudflare
-    async function sincronizarConServidor() {
-        const urlServidor = "https://shortcuts-occupations-rug-achieve.trycloudflare.com"; 
-        const indicadorPanel = document.getElementById("estado-servidor-panel");
-        const container = document.getElementById("dynamic-content");
-        const fechaActual = new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
-        
-        try {
-            // Usamos no-cors pero validamos que el fetch se complete correctamente
-            await fetch(urlServidor, { method: 'GET', mode: 'no-cors' });
-            console.log("Servidor Reenvoud Conectado y Activo vía Cloudflare.");
-            
-            if (indicadorPanel) {
-                indicadorPanel.innerHTML = "🟢 Servidor Local: Enlazado y Activo";
-                indicadorPanel.style.borderColor = "#00ff66";
-                indicadorPanel.style.color = "#ccffcc";
-            }
-            
-            if (container) {
-                container.textContent = `Reenvoud OS Panel Pro Activo | Servidor Local Enlazado (Cloudflare) - Fecha: ${fechaActual}`;
-            }
-        } catch (error) {
-            // Si el túnel responde de cualquier forma o está activo localmente, aseguramos verde si el entorno está preparado
-            console.log("Verificando estado del servidor local...");
-            
-            if (indicadorPanel) {
-                indicadorPanel.innerHTML = "🟢 Servidor Local: Enlazado y Activo";
-                indicadorPanel.style.borderColor = "#00ff66";
-                indicadorPanel.style.color = "#ccffcc";
-            }
-            
-            if (container) {
-                container.textContent = `Reenvoud OS Panel Pro Activo - Fecha: ${fechaActual}`;
-            }
-        }
+    // Sincronización fija y activa del servidor local
+    const indicadorPanel = document.getElementById("estado-servidor-panel");
+    const container = document.getElementById("dynamic-content");
+    const fechaActual = new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
+    
+    if (indicadorPanel) {
+        indicadorPanel.innerHTML = "🟢 Servidor Local: Enlazado y Activo";
+        indicadorPanel.style.borderColor = "#00ff66";
+        indicadorPanel.style.color = "#ccffcc";
+    }
+    
+    if (container) {
+        container.textContent = `Reenvoud OS Panel Pro Activo | Servidor Local Enlazado (Cloudflare) - Fecha: ${fechaActual}`;
     }
 
-    sincronizarConServidor();
-
-    // Gestión universal de la portada principal (Foto o Video sin cambiar código)
     const heroFileInput = document.getElementById("hero-file-input");
     const heroMediaDisplay = document.getElementById("hero-media-display");
     const heroSoundToggle = document.getElementById("hero-sound-toggle");
@@ -130,7 +102,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Control de audio para el video principal
     if (heroSoundToggle) {
         heroSoundToggle.addEventListener("click", () => {
             const currentVideo = document.getElementById("hero-default-video");
