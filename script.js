@@ -30,6 +30,29 @@
         });
     }
 
+    // Puente de sincronización con tu servidor local (192.168.11.12)
+    async function sincronizarConServidor() {
+        const urlServidor = "http://192.168.11.12"; 
+        const container = document.getElementById("dynamic-content");
+        const fechaActual = new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
+        
+        try {
+            // Intenta verificar la pasarela del servidor local
+            await fetch(urlServidor, { method: 'GET', mode: 'no-cors' });
+            console.log("Servidor Reenvoud (192.168.11.12) Conectado y Activo.");
+            if (container) {
+                container.textContent = `Reenvoud OS Panel Pro Activo | Servidor Local Enlazado (${urlServidor}) - Fecha: ${fechaActual}`;
+            }
+        } catch (error) {
+            console.log("Servidor local fuera de línea. Operando en modo estándar.");
+            if (container) {
+                container.textContent = `Reenvoud OS Panel Pro Activo - Fecha: ${fechaActual}`;
+            }
+        }
+    }
+
+    sincronizarConServidor();
+
     // Gestión universal de la portada principal (Foto o Video sin cambiar código)
     const heroFileInput = document.getElementById("hero-file-input");
     const heroMediaDisplay = document.getElementById("hero-media-display");
@@ -331,11 +354,5 @@
                 alert("Selecciona un departamento válido en el desplegable.");
             }
         });
-    }
-
-    const container = document.getElementById("dynamic-content");
-    const fechaActual = new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
-    if (container) {
-        container.textContent = `Reenvoud OS Panel Pro Activo - Fecha: ${fechaActual}`;
     }
 });
