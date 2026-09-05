@@ -31,22 +31,15 @@
 <body>
 
     <header class="top-bar">
-        <div class="left-menu-bar" style="display: flex; gap: 6px; align-items: center;">
-            <button class="action-btn" title="Miembros">👤</button>
-            <button class="action-btn" title="Seguidores">👥</button>
-            <button class="action-btn" title="Me gusta">❤️</button>
-            {% if request.user.is_authenticated and request.user.is_staff %}
+        <div class="left-menu-bar">
+            <!-- Botón físico de retroceso en pantalla -->
+            <button class="action-btn" id="back-btn" title="Volver Atrás">⬅️</button>
             <button class="menu-toggle-btn" id="menu-toggle">⚡ Panel Gestor Pro</button>
-            {% endif %}
         </div>
-        
-        <div class="center-action-bar" style="display: flex; justify-content: center; align-items: center;">
-            <button class="action-btn" id="search-btn" title="Buscar">🔍</button>
-        </div>
-
-        <div class="right-action-bar" style="display: flex; gap: 6px; align-items: center;">
+        <div class="right-action-bar">
             <button class="action-btn" title="Favoritos">📌</button>
             <button class="action-btn" title="Alertas">🔔</button>
+            <button class="action-btn" title="Buscar">🔍</button>
         </div>
     </header>
 
@@ -61,7 +54,6 @@
             🟢 Servidor Local: Enlazado y Activo
         </div>
         
-        {% if request.user.is_authenticated and request.user.is_staff %}
         <div class="admin-panel-builder">
             <h3>🛠️ Creador de Áreas / Departamentos</h3>
             <div class="form-group">
@@ -92,11 +84,6 @@
                 <button id="add-block-btn" class="builder-btn">Añadir al Área</button>
             </div>
         </div>
-        {% else %}
-        <div style="padding: 15px; margin: 15px; background: rgba(139,0,0,0.2); border: 1px solid #8b0000; border-radius: 6px; text-align: center; color: #ff9999; font-size: 13px;">
-            🔒 Panel de control restringido. Acceso exclusivo para administradores.
-        </div>
-        {% endif %}
 
         <hr class="menu-divider">
 
@@ -128,13 +115,11 @@
                     <button id="hero-sound-toggle" style="position: absolute; bottom: 15px; right: 15px; background: rgba(0, 0, 0, 0.7); color: #fff; border: 1px solid #8b0000; padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 0.85rem; font-weight: bold; z-index: 10;">🔇 Activar Sonido</button>
                 </div>
 
-                <!-- Panel rápido para cambiar la foto o video principal protegido por rol -->
-                {% if request.user.is_authenticated and request.user.is_staff %}
+                <!-- Panel rápido para cambiar la foto o video principal sin modificar código -->
                 <div style="margin-top: 15px; padding: 10px; background: rgba(139,0,0,0.15); border: 1px dashed #8b0000; border-radius: 8px; text-align: left;">
                     <label style="font-size: 0.85rem; color: #ff9999; display: block; margin-bottom: 5px;">🖼️ Cambiar Portada Principal (Foto o Video Universal):</label>
                     <input type="file" id="hero-file-input" accept="image/*,video/*" style="font-size: 0.8rem; color: #fff; width: 100%;">
                 </div>
-                {% endif %}
             </div>
             <h1>Reenvoud Corporation</h1>
             <p class="founder-subtitle">Fundador: Jonathan Carela Burgos</p>
@@ -174,31 +159,7 @@
         <div id="dynamic-content"></div>
     </main>
 
-    <!-- Banner de Política de Consentimiento y Aceptación para Visitantes -->
-    <div id="policy-consent-banner" style="position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(15, 15, 15, 0.95); border-top: 2px solid #8b0000; padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; z-index: 99999; box-sizing: border-box; color: #fff; font-size: 13.5px; box-shadow: 0 -4px 15px rgba(0,0,0,0.5);">
-        <div style="padding-right: 20px; line-height: 1.4;">
-            <span>🛡️ En <strong>Reenvoud Corporation</strong> utilizamos cookies y directivas de seguridad para garantizar una experiencia óptima. Al continuar navegando, aceptas nuestra política de privacidad y uso de datos.</span>
-        </div>
-        <div>
-            <button id="accept-policy-btn" style="background: #8b0000; color: #fff; border: 1px solid #ff4444; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; white-space: nowrap;">Aceptar y Continuar</button>
-        </div>
-    </div>
-
-    <script>
-        document.getElementById('accept-policy-btn').addEventListener('click', function() {
-            const banner = document.getElementById('policy-consent-banner');
-            banner.style.display = 'none';
-            localStorage.setItem('reenvoud_policy_accepted', 'true');
-        });
-
-        if (localStorage.getItem('reenvoud_policy_accepted') === 'true') {
-            const banner = document.getElementById('policy-consent-banner');
-            if (banner) {
-                banner.style.display = 'none';
-            }
-        }
-    </script>
-
     <script src="script.js?v=7"></script>
 </body>
 </html>
+Debe aver la condirmacion del usuario osea automaticamebte nsi no es el. Usuario del creador no puede entrar sino puede ver las qera publicas
