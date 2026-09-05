@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", () => {
     const menuToggle = document.getElementById("menu-toggle");
     const sideMenu = document.getElementById("side-menu");
@@ -29,8 +30,10 @@ document.addEventListener("DOMContentLoaded", () => {
         backBtn.addEventListener("click", () => {
             if (window.location.hash && window.location.hash !== "#inicio") {
                 history.back();
-            } else {
+            } else if (typeof switchView === "function") {
                 switchView("inicio", true);
+            } else {
+                window.location.hash = "#inicio";
             }
         });
     }
@@ -356,3 +359,5 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
+
+        
